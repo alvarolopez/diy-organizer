@@ -53,7 +53,7 @@
 % - as above but no <hour>
 \newcommand{\DayFillerRowEWP}{%
 	\vstrut{11.5pt}%
-        {\color{WriteBgMain}\rule{\DayFillerWidthWP}{0.8pt}}%
+        {\color{WriteBgMain}\rule{\DayFillerWidthWP}{0.5pt}}%
         \hspace*{\DayFillerSepWP}%
         {\color{WriteBgMain}\rule{\NotesFillerTotWidthWP}{0.8pt}}}
 % - then fill, with hour intervals
@@ -77,7 +77,7 @@
 \newcommand{\myCentering}[1]{\hspace*{\fill}#1\hspace*{\fill}}
 \newcommand{\MonthMiniCalWP}[2]{%
 	{\renewcommand{\arraystretch}{0.6}%
-	\begin{tabular*}{\MinicalWidthWP}[t]{@{}K*{5}{I}J@{}}
+	\begin{tabular*}{\MinicalWidthWP}[t]{@{}*{5}{I}JK@{}}
 	\multicolumn{7}{>{\columncolor{HeadMainBg}}c}{\scriptsize\vstrut{1.1em}\bfseries\color{white}#1} \\
 	\rowcolor{HeadSubBg}%
 	\WkdayTblRowA{\myCentering} \\
@@ -134,10 +134,10 @@
 \newcommand{\LeftPageWP}[5]{%
 	{\bfseries\Large\Week{} #1\vstrut[-0.2em]{1.2em}}\par
 	\nointerlineskip
-	\DayWP{\Sunday{} #2}\par
-	\DayWP{\Monday{} #3}\par
-	\DayWP{\Tuesday{} #4}\par
-	\DayWP{\Wednesday{} #5}\vspace*{\fill}%
+	\DayWP{\Monday{} #2}\par
+	\DayWP{\Tuesday{} #3}\par
+	\DayWP{\Wednesday{} #4}\par
+	\DayWP{\Thursday{} #5}\vspace*{\fill}%
 	\clearpage}
 
 % Right page
@@ -147,9 +147,9 @@
 	\nointerlineskip}
 
 \newcommand{\RightPageWP}[9]{%
-	\DayWP{\Thursday{} #1}\par
-	\DayWP{\Friday{} #2}\par
-	\DayWP{\Saturday{} #3}\par
+	\DayWP{\Friday{} #1}\par
+	\DayWP{\Saturday{} #2}\par
+	\DayWP{\Sunday{} #3}\par
 	\NotesWP{#4}{#5}{#6}{#7}{#8}{#9}\vspace*{\fill}%
 	\clearpage}
 

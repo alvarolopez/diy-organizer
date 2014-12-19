@@ -38,7 +38,7 @@
 \newcolumntype{Z}{>{\hspace*{\fill}\normalfont\footnotesize\color{WeekendDay}}p{\WkdayColWidthMonthTblYC}<{\hspace*{\fill}}}
 
 \newcommand{\MonthTblYC}[1]{%
-	\begin{tabular*}{\MonthTblWidthYC}[t]{@{}Z*{5}{W}S@{}}
+	\begin{tabular*}{\MonthTblWidthYC}[t]{@{}*{5}{W}SZ@{}}
 		\rowcolor{HeadSubBg}
 		\WkdayTblRow{\bfseries\tiny} \\
 		#1

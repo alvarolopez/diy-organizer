@@ -44,7 +44,7 @@ import math
 import calendar
 
 
-calendar.setfirstweekday(calendar.SUNDAY)
+calendar.setfirstweekday(calendar.MONDAY)
 
 #------------------------------------------------------------------------------
 
@@ -122,13 +122,13 @@ def gen_macro_MonthTbl(month, year, *postfix):
     # macro def start
     macro_def = '\\newcommand{\MonthTbl' + month_abbr_C[ month ] + postfix[0] + '}[1][\hfill]{%\n'
 
-    cal = calendar.Calendar( calendar.SUNDAY )
+    cal = calendar.Calendar( calendar.MONDAY )
     weeks = cal.monthdatescalendar(year, month)
     for week_num in range(len(weeks)):
         week = weeks[week_num]
         for day in week:
             #print day
-            if (day.month == month):     # human-readable alignment: insert spaces as required 
+            if (day.month == month):     # human-readable alignment: insert spaces as required
                 if (day.day < 10):                                          # - days 1-9
                     macro_def += ' '
                 macro_def += '#1{' + str(day.day)
@@ -136,12 +136,12 @@ def gen_macro_MonthTbl(month, year, *postfix):
                 macro_def += ' #1{'
 
             #print day.weekday
-            if day.weekday() == calendar.SATURDAY:
+            if day.weekday() == calendar.SUNDAY:
                 if day.day == month_length or day.month != month:
                     macro_def += '}'         # at the end of last row
                     if week_num < 5:
                         macro_def += ' \\\\\n#1{} &  #1{} &  #1{} &  #1{} &  #1{} &  #1{} &  #1{}'
-            
+
                 else:
                     macro_def += '} \\\\\n'
             else:
@@ -172,7 +172,7 @@ def write_out_MonthTbl_macros(year, file):
     MonthTbl_macros_FH.writelines('\\newcommand{\MyYear}{' + str(year) + '}\n\n')
 
     for m in range(1, 13):
-        MonthTbl_macros_FH.writelines(gen_macro_MonthTbl(m, year) + '\n') 
+        MonthTbl_macros_FH.writelines(gen_macro_MonthTbl(m, year) + '\n')
 
     MonthTbl_macros_FH.writelines('% Prev year ----------------------------------------------------------\n\n')
     MonthTbl_macros_FH.writelines('\\newcommand{\MyYearPrev}{' + str(year - 1) + '}\n\n')
@@ -190,34 +190,34 @@ def write_out_MonthTbl_macros(year, file):
 # - contains first 3 days of the week for current month
 # - incomplete rows are filled from previous/next months and marked '#2'
 # - row 6 days are supplied as optional args to '#1' on row 5
-#   (months starting Sat with 31 days or Sun with 30/31 days) 
+#   (months starting Sat with 31 days or Sun with 30/31 days)
 
 def gen_macro_MPMonthLeft(month, year):
 
     month_length             = calendar.monthrange(year, month)[1]
-    myCal= calendar.Calendar(calendar.SUNDAY)
+    myCal= calendar.Calendar(calendar.MONDAY)
     weeks = myCal.monthdatescalendar(year, month)
-    
+
     # macro start
-    macro_def = '\\newcommand{\MP' + month_abbr_C[ month ] + 'Left}[2]{%\n' 
+    macro_def = '\\newcommand{\MP' + month_abbr_C[ month ] + 'Left}[2]{%\n'
 
     for week_num in range(len(weeks)):
         if week_num > 4:
             logging.warning( '%i-%i has more than 5 rows.  Calendar truncated.' % (year, month) )
             break
-            
+
         week = weeks[week_num]
         for col in range(3):
             macro_def += '& '
-            
+
             if week[col].day < 10:
                 macro_def += ' '
-                
+
             if week[col].month != month:
                 macro_def += '#2{' + str(week[col].day) + '} '  # days, max range 25-31, prev month
             else:
                 macro_def += '#1{' + str(week[col].day) + '} ' # days, max range 1-7, curr month
-                
+
             #if week[col].weekday() == calendar.TUESDAY:
             #    macro_def += '} '
             #else:
@@ -225,9 +225,9 @@ def gen_macro_MPMonthLeft(month, year):
 
         if week_num+1 < len(weeks):
             macro_def += '\\\\\n'
-            
+
     macro_def += '}\n'
-    
+
     return macro_def
 
 
@@ -236,9 +236,9 @@ def gen_macro_MPMonthLeft(month, year):
 # (very similar to the \MP<month>Right, there is no 6 row problem)
 
 def gen_macro_MPMonthRight(month, year):
-    myCal= calendar.Calendar(calendar.SUNDAY)
+    myCal= calendar.Calendar(calendar.MONDAY)
     weeks = myCal.monthdatescalendar(year, month)
-    
+
     # macro start
     macro_def = '\\newcommand{\MP' + month_abbr_C[ month ] + 'Right}[2]{%\n'
 
@@ -246,25 +246,25 @@ def gen_macro_MPMonthRight(month, year):
         if week_num > 4:
             logging.warning( '%i-%i has more than 5 rows.  Calendar truncated.' % (year, month) )
             break
-            
+
         week = weeks[week_num]
         for col in range(3,7):
             if col != 3:
                 macro_def += '& '
-            
+
             if week[col].day < 10:
                 macro_def += ' '
-                
+
             if week[col].month != month:
                 macro_def += '#2{' + str(week[col].day) + '} '  # days, max range 25-31, prev month
             else:
                 macro_def += '#1{' + str(week[col].day) + '} ' # days, max range 1-7, curr month
-                
+
         if week_num+1 < len(weeks):
             macro_def += '\\\\\n'
-            
+
     macro_def += '}\n'
-    
+
     return macro_def
 
 
@@ -290,7 +290,7 @@ def yeardatescalendar(year):
     # week 0 is []
     weeks_list = [[]]
 
-    myCal= calendar.Calendar(calendar.SUNDAY)
+    myCal= calendar.Calendar(calendar.MONDAY)
     weeks_list +=  myCal.monthdatescalendar(year, 1)            # Jan goes in unconditionally
     for m in range(2, 13):
         curr_month = myCal.monthdatescalendar(year, m)
@@ -316,7 +316,7 @@ def write_out_WP_macros(year, start_week, file):
         curr_m  = weeks[w][6].month         # current month: from last day-of-week
         other_m = weeks[w][0].month         # month of first day-of-week: current month or previous
 
-        curr_y = weeks[w][6].year           # year of last day-of-week, same as 'year', except maybe last week 
+        curr_y = weeks[w][6].year           # year of last day-of-week, same as 'year', except maybe last week
         other_y = weeks[w][0].year
 
         # Month macros for the mini cals
